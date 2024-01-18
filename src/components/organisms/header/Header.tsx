@@ -6,7 +6,7 @@ import AuthButton from "~/components/molecules/authButton/AuthButton";
 
 function Header() {
   return (
-    <header className="flex w-full items-center justify-between">
+    <header className="mb-10 flex w-full items-center justify-between">
       <CustomImage image={TicTacToeImg} alt="Tic_Tac_Toe_image" />
       <AuthButton />
     </header>
