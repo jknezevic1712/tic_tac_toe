@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`p-2 font-sans ${inter.variable} bg-gradient-to-br from-[#bdc2e8] to-[#e6dee9] text-zinc-950`}
+        className={`p-2 font-sans ${inter.variable} min-h-screen bg-gradient-to-br from-[#bdc2e8] to-[#e6dee9] bg-no-repeat text-zinc-950`}
       >
         <Header />
         {children}
