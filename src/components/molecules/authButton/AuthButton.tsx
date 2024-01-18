@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "~/components/atoms/button/Button";
+import { Button } from "~/components/atoms/button/Button";
 
 function AuthButton() {
   const user = null; // Get user from custom store hook
