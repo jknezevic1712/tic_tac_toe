@@ -71,7 +71,7 @@ function AuthenticationPage() {
 
   return (
     <main className="flex flex-col items-center justify-center gap-6">
-      <h1 className="text-4xl font-extrabold sm:text-sm">
+      <h1 className="text-4xl font-extrabold">
         {isLogin ? "Login" : "Register"}
       </h1>
 
@@ -87,7 +87,7 @@ function AuthenticationPage() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} autoComplete="username" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,7 +101,11 @@ function AuthenticationPage() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <Input
+                    {...field}
+                    type="password"
+                    autoComplete="current-password"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
