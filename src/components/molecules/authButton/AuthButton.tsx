@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "~/components/atoms/button/Button";
 
 function AuthButton() {
@@ -10,10 +11,12 @@ function AuthButton() {
     // return // Route user to login page
   }
 
-  return (
-    <div>
-      <Button onClick={handleAuth}>{user ? "Logout" : "Login"}</Button>
-    </div>
+  return user ? (
+    <Button onClick={handleAuth}>Logout</Button>
+  ) : (
+    <Link href="/authentication">
+      <Button onClick={handleAuth}>Login</Button>
+    </Link>
   );
 }
 
