@@ -3,7 +3,19 @@
 import { useState } from "react";
 // components
 import { Button } from "~/components/atoms/button/Button";
-import InputWithLabel from "~/components/molecules/inputWithLabel/InputWithLabel";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/organisms/form/Form";
+import { Input } from "~/components/atoms/input/input";
+// utils
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 function AuthTypeSwitch({
   isLogin,
@@ -27,18 +39,34 @@ function AuthTypeSwitch({
           <Button className="text-base" variant="link" onClick={action}>
             Login now!
           </Button>
-          {/* "cursor-pointer border-b border-zinc-950 p-1 lg:transition-all lg:hover:rounded-md lg:hover:border-transparent lg:hover:bg-zinc-950 lg:hover:text-zinc-100" */}
         </>
       )}
     </p>
   );
 }
 
+const authenticationSchema = z.object({
+  username: z.string().min(5).max(10),
+  password: z.string().min(5).max(30),
+});
 function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(true);
 
+  const form = useForm<z.infer<typeof authenticationSchema>>({
+    resolver: zodResolver(authenticationSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof authenticationSchema>) {
+    console.log(values);
+  }
+
   function handleAuthTypeSwitch() {
     setIsLogin(!isLogin);
+    form.clearErrors();
   }
 
   return (
@@ -47,11 +75,42 @@ function AuthenticationPage() {
         {isLogin ? "Login" : "Register"}
       </h1>
 
-      <form className="flex flex-col gap-3">
-        <InputWithLabel label="Username" type="text" autoFocus />
-        <InputWithLabel label="Password" type="password" />
-        <Button>Submit</Button>
-      </form>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex w-full max-w-xs flex-col space-y-4"
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
 
       <AuthTypeSwitch isLogin={isLogin} action={handleAuthTypeSwitch} />
     </main>
