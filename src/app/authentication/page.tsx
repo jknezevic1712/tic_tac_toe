@@ -70,7 +70,7 @@ function AuthenticationPage() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center gap-6">
+    <main className="mt-32 flex flex-col items-center justify-center gap-6 2xl:mt-52">
       <h1 className="text-4xl font-extrabold">
         {isLogin ? "Login" : "Register"}
       </h1>

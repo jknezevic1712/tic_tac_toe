@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <header className="mb-32 flex w-full items-center justify-between 2xl:mb-52">
+    <header className="flex w-full items-center justify-between">
       <Link href="/">
         <CustomImage image={TicTacToeImg} alt="Tic_Tac_Toe_image" />
       </Link>
