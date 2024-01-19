@@ -3,15 +3,7 @@
 import { useState } from "react";
 // components
 import { Button } from "~/components/atoms/button/Button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/organisms/form/Form";
-import { Input } from "~/components/atoms/input/input";
+import AuthForm from "~/components/templates/authForm/AuthForm";
 // utils
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,48 +66,7 @@ function AuthenticationPage() {
       <h1 className="text-4xl font-extrabold">
         {isLogin ? "Login" : "Register"}
       </h1>
-
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full max-w-xs flex-col space-y-4"
-        >
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input {...field} autoComplete="username" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    autoComplete="current-password"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
-
+      <AuthForm form={form} submitHandler={onSubmit} />
       <AuthTypeSwitch isLogin={isLogin} action={handleAuthTypeSwitch} />
     </main>
   );
