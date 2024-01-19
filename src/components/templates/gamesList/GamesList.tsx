@@ -1,14 +1,19 @@
 "use client";
 
-import { type ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
+
 import { Button } from "~/components/atoms/button/Button";
 import DataTable from "~/components/organisms/dataTable/Datatable";
+// utils
+import { gamesList } from "~/lib/mockData";
 // types
 import type { Game } from "~/lib/types/state";
+import type { ColumnDef } from "@tanstack/react-table";
 
 function GamesList() {
+  const router = useRouter();
+
   const user = "null";
-  const gamesList: Game[] = [];
   const columns: ColumnDef<Game>[] = [
     {
       accessorKey: "id",
@@ -38,12 +43,13 @@ function GamesList() {
 
   function handleGameJoin(game: Game) {
     // console.log("Joined game ", game);
+    router.push(`/game/${game.id}`);
   }
 
   if (!user) return <span>Please register/login to play!</span>;
 
   return (
-    <div className="w-full max-w-7xl rounded-md shadow-xl">
+    <div className="w-full rounded-md shadow-xl">
       <DataTable columns={columns} data={gamesList} />
     </div>
   );

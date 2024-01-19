@@ -19,7 +19,7 @@ function AuthForm({ form, submitHandler }: AuthFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(submitHandler)}
-        className="flex w-full max-w-xs flex-col space-y-4"
+        className="flex w-full flex-col space-y-4"
       >
         <FormField
           control={form.control}
