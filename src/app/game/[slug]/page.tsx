@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+// components
+import { Button } from "~/components/atoms/button/Button";
 // utils
+import "~/styles/gameBoard.css";
 import { gameFields } from "~/lib/mockData";
 
 type GameBoardProps = {
@@ -10,7 +13,7 @@ type GameBoardProps = {
   };
 };
 function GameBoard({ params: { slug } }: GameBoardProps) {
-  const [data, setData] = useState(gameFields);
+  // const [data, setData] = useState(gameFields);
 
   return (
     <main className="mb-16 mt-32 flex w-full max-w-7xl flex-col items-center justify-center gap-6 2xl:mt-52">
@@ -18,20 +21,23 @@ function GameBoard({ params: { slug } }: GameBoardProps) {
         Game #{slug}
       </h1>
 
-      <div className="grid h-full w-full grid-cols-3 content-center justify-center gap-3 p-6 md:gap-8">
-        {data.map((field, idx) => {
+      <div className="flex w-3/4 flex-wrap items-start md:w-1/2 xl:w-1/3">
+        {gameFields.map((field, idx) => {
           // console.log("FIELD ", field);
 
           return (
-            <div
+            <Button
               key={field.id}
-              className={`field-${idx} flex aspect-square w-full cursor-pointer items-center justify-center self-center justify-self-center rounded-sm border-2 transition-all hover:bg-slate-300 md:w-full`}
+              type="button"
+              variant="board"
+              className={`field-${idx} flex h-24 w-1/3 cursor-pointer items-center justify-center transition-all hover:bg-slate-300`}
+              disabled={field.checked ? true : false}
               // onClick={(e) => draw(e, 1)}
             >
               <span className="text-4xl font-extrabold">
                 {field.checked ? "X" : ""}
               </span>
-            </div>
+            </Button>
           );
         })}
       </div>

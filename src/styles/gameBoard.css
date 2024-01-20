@@ -1,0 +1,47 @@
+.field-0 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-1 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-2 {
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-3 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-4 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-5 {
+  border-bottom: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-6 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
+
+.field-7 {
+  border-right: var(--game-board-border-thickness) dashed
+    var(--game-board-border-color);
+}
