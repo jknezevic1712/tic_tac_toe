@@ -10,6 +10,7 @@ export function userRegisteration(username: string, password: string) {
       username,
       password,
     })
+    .then(async () => await userLogin(username, password))
     .catch((e) => console.log(e));
 }
 

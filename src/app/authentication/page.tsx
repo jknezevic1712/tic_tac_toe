@@ -55,11 +55,14 @@ function AuthenticationPage() {
       username: string;
       password: string;
     }) => {
-      if (isLogin)
+      if (isLogin) {
         return userLogin(username, password).then((result) => {
           if (result) return router.push("/");
         });
-      return userRegisteration(username, password);
+      }
+      return userRegisteration(username, password).then((result) => {
+        if (result) return router.push("/");
+      });
     },
   });
 
