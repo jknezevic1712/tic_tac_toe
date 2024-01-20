@@ -40,6 +40,10 @@ function AuthTypeSwitch({
   );
 }
 
+type AuthUserMutationProps = {
+  username: string;
+  password: string;
+};
 const authenticationSchema = z.object({
   username: z.string().min(5).max(10),
   password: z.string().min(5).max(30),
@@ -48,23 +52,23 @@ function AuthenticationPage() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const authUser = useMutation({
-    mutationFn: ({
-      username,
-      password,
-    }: {
-      username: string;
-      password: string;
-    }) => {
-      if (isLogin) {
-        return userLogin(username, password).then((result) => {
-          if (result) return router.push("/");
-        });
-      }
-      return userRegisteration(username, password).then((result) => {
+    mutationFn: ({ username, password }: AuthUserMutationProps) =>
+      authUserMutation(username, password),
+  });
+
+  function authUserMutation(
+    username: AuthUserMutationProps["username"],
+    password: AuthUserMutationProps["password"],
+  ) {
+    if (isLogin) {
+      return userLogin(username, password).then((result) => {
         if (result) return router.push("/");
       });
-    },
-  });
+    }
+    return userRegisteration(username, password).then((result) => {
+      if (result) return router.push("/");
+    });
+  }
 
   const form = useForm<z.infer<typeof authenticationSchema>>({
     resolver: zodResolver(authenticationSchema),
