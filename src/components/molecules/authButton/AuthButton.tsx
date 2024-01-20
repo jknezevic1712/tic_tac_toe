@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/atoms/button/Button";
 // utils
 import { userLogout } from "~/lib/requests/authentication";
+import { useStore } from "~/lib/store/store";
 
 function AuthButton() {
   const router = useRouter();
-  const user = null; // Get user from store
+  const user = useStore((state) => state.user);
   const logoutUser = useMutation({
-    mutationFn: () => userLogout(),
+    mutationFn: () => userLogout(user!.token),
   });
 
   function handleAuth() {

@@ -1,4 +1,8 @@
 import axios from "axios";
+// types
+import type { User } from "../types/state";
+// utils
+import { setUser, resetUser } from "../store/store";
 
 export function userRegisteration(username: string, password: string) {
   return axios
@@ -6,7 +10,6 @@ export function userRegisteration(username: string, password: string) {
       username,
       password,
     })
-    .then((res: { data: string }) => res)
     .catch((e) => console.log(e));
 }
 
@@ -16,19 +19,20 @@ export function userLogin(username: string, password: string) {
       username,
       password,
     })
-    .then((res: { data: string }) => res)
-    .catch((e) => console.log(e));
+    .then((res: { data: User }) => {
+      setUser(res.data);
+      return true;
+    })
+    .catch(() => false);
 }
 
-export function userLogout() {
-  const token = ""; // Get from store
-
+export function userLogout(userToken: string) {
   return axios
     .post("https://tictactoe.aboutdream.io/logout/", undefined, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     })
-    .then((res: { data: string }) => res)
+    .then(() => resetUser())
     .catch((e) => console.log(e));
 }

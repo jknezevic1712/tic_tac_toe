@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 // components
 import { Button } from "~/components/atoms/button/Button";
 import AuthForm from "~/components/templates/authForm/AuthForm";
@@ -44,6 +45,7 @@ const authenticationSchema = z.object({
   password: z.string().min(5).max(30),
 });
 function AuthenticationPage() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const authUser = useMutation({
     mutationFn: ({
@@ -53,7 +55,10 @@ function AuthenticationPage() {
       username: string;
       password: string;
     }) => {
-      if (isLogin) return userLogin(username, password);
+      if (isLogin)
+        return userLogin(username, password).then((result) => {
+          if (result) return router.push("/");
+        });
       return userRegisteration(username, password);
     },
   });

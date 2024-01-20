@@ -9,11 +9,12 @@ import { gamesList } from "~/lib/mockData";
 // types
 import type { Game } from "~/lib/types/state";
 import type { ColumnDef } from "@tanstack/react-table";
+import { useStore } from "~/lib/store/store";
 
 function GamesList() {
   const router = useRouter();
 
-  const user = "null";
+  const user = useStore((state) => state.user);
   const columns: ColumnDef<Game>[] = [
     {
       accessorKey: "id",
