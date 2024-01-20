@@ -63,7 +63,7 @@ function AuthenticationPage() {
 
   return (
     <main className="mt-32 flex w-full max-w-xs flex-col items-center justify-center gap-6 2xl:mt-52">
-      <h1 className="text-4xl font-extrabold">
+      <h1 className="text-4xl font-extrabold sm:text-5xl">
         {isLogin ? "Login" : "Register"}
       </h1>
       <AuthForm form={form} submitHandler={onSubmit} />
