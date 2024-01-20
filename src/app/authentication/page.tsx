@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 // components
 import { Button } from "~/components/atoms/button/Button";
 import AuthForm from "~/components/templates/authForm/AuthForm";
 // utils
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { userRegisteration, userLogin } from "~/lib/requests/authentication";
 
 function AuthTypeSwitch({
   isLogin,
@@ -43,6 +45,18 @@ const authenticationSchema = z.object({
 });
 function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const authUser = useMutation({
+    mutationFn: ({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }) => {
+      if (isLogin) return userLogin(username, password);
+      return userRegisteration(username, password);
+    },
+  });
 
   const form = useForm<z.infer<typeof authenticationSchema>>({
     resolver: zodResolver(authenticationSchema),
@@ -52,8 +66,11 @@ function AuthenticationPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof authenticationSchema>) {
-    console.log(values);
+  function onSubmit({
+    username,
+    password,
+  }: z.infer<typeof authenticationSchema>) {
+    authUser.mutate({ username, password });
   }
 
   function handleAuthTypeSwitch() {

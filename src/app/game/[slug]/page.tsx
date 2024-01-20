@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 // components
 import { Button } from "~/components/atoms/button/Button";
 // utils
@@ -13,8 +11,6 @@ type GameBoardProps = {
   };
 };
 function GameBoard({ params: { slug } }: GameBoardProps) {
-  // const [data, setData] = useState(gameFields);
-
   return (
     <main className="mb-16 mt-32 flex w-full max-w-7xl flex-col items-center justify-center gap-6 2xl:mt-52">
       <h1 className="mb-12 text-4xl font-extrabold sm:text-5xl">
