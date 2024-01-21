@@ -52,6 +52,7 @@ function GamesList() {
     queryFn: async () => {
       const games = await fetchGames(user!.token);
       games && setGamesList(games);
+      return games;
     },
     staleTime: 15000,
   });
