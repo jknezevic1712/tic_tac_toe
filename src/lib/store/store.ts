@@ -3,20 +3,21 @@ import { create } from "zustand";
 import type { RootState } from "../types/state";
 import { persist } from "zustand/middleware";
 
+const initialState: RootState = {
+  user: null,
+  gamesList: [],
+};
+
 const useStore = create(
-  persist<RootState>(
-    () => ({
-      user: null,
-    }),
-    {
-      name: "ttt-storage",
-    },
-  ),
+  persist(() => initialState, {
+    name: "ttt-storage",
+  }),
 );
 
+const resetState = () => useStore.setState(() => ({ ...initialState }));
 const setUser = (user: RootState["user"]) =>
   useStore.setState((state) => ({ ...state, user }));
-const resetUser = () =>
-  useStore.setState((state) => ({ ...state, user: null }));
+const setGamesList = (gamesList: RootState["gamesList"]) =>
+  useStore.setState((state) => ({ ...state, gamesList }));
 
-export { useStore, setUser, resetUser };
+export { useStore, resetState, setUser, setGamesList };

@@ -1,6 +1,20 @@
 export type Game = {
-  id: string;
-  name: string;
+  id: number;
+  board: number[][];
+  winner: {
+    id: number;
+    username: string;
+  } | null;
+  first_player: {
+    id: number;
+    username: string;
+  };
+  second_player: {
+    id: number;
+    username: string;
+  } | null;
+  created: string;
+  status: "open" | "progress" | "finished";
 };
 
 export type User = {
@@ -10,4 +24,5 @@ export type User = {
 };
 export type RootState = {
   user: User | null;
+  gamesList: Game[] | [];
 };

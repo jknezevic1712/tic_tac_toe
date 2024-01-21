@@ -17,7 +17,7 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data: TData[] | null;
 }
 
 function DataTable<TData, TValue>({
@@ -25,7 +25,7 @@ function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -60,16 +60,24 @@ function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={
-                      cell.column.id === "name" ? "p-4 font-bold" : "p-4"
-                    }
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  // console.log("CELL ", cell);
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.id === "first_player_username"
+                          ? "p-4 font-bold"
+                          : "p-4"
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
