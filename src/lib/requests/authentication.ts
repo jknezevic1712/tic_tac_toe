@@ -2,7 +2,7 @@ import axios from "axios";
 // types
 import type { User } from "../types/state";
 // utils
-import { setUser, resetUser } from "../store/store";
+import { setUser, resetState } from "../store/store";
 
 export function userRegisteration(username: string, password: string) {
   return axios
@@ -34,6 +34,6 @@ export function userLogout(userToken: string) {
         Authorization: `Bearer ${userToken}`,
       },
     })
-    .then(() => resetUser())
+    .then(() => resetState())
     .catch((e) => console.log(e));
 }
