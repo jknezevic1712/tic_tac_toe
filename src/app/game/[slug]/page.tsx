@@ -21,7 +21,7 @@ function GameBoard({ params: { slug } }: GameBoardProps) {
   useQuery({
     queryKey: ["fetch-game", slug],
     queryFn: async () => await fetchGame(user!.token, +slug),
-    refetchInterval: 5000,
+    refetchInterval: 1500,
   });
 
   function showCorrectSymbol(field: number | null) {
@@ -38,7 +38,7 @@ function GameBoard({ params: { slug } }: GameBoardProps) {
         Game #{slug}
       </h1>
 
-      {(currentGame.winner || currentGame.status === "finished") && (
+      {(currentGame.winner ?? currentGame.status === "finished") && (
         <div className="mb-12 flex flex-col items-center justify-center gap-3">
           <h2 className="text-3xl font-extrabold sm:text-4xl">
             {currentGame.winner
