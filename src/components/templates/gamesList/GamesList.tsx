@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "~/components/atoms/button/Button";
 import DataTable from "~/components/organisms/dataTable/Datatable";
 // utils
-import { fetchGames } from "~/lib/requests/games";
+import { createNewGame, fetchGames } from "~/lib/requests/games";
 import { useStore } from "~/lib/store/store";
 // types
 import type { Game } from "~/lib/types/state";
@@ -63,7 +63,12 @@ function GamesList() {
 
   return (
     <div className="flex w-full flex-col rounded-md shadow-xl">
-      {/* <Button className="mb-4 w-fit self-end">Create New</Button> */}
+      <Button
+        className="mb-4 w-fit self-end"
+        onClick={() => createNewGame(user.token)}
+      >
+        Create New
+      </Button>
       <DataTable columns={columns} data={gamesList} userToken={user.token} />
     </div>
   );

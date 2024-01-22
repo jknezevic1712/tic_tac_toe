@@ -1,6 +1,6 @@
 import axios from "axios";
 // types
-import type { Game, RootState } from "../types/state";
+import type { RootState } from "../types/state";
 // utils
 import { setGamesList } from "../store/store";
 
@@ -19,5 +19,20 @@ export function fetchGames(userToken: string, url?: string) {
     .catch((e) => {
       console.log("Error fetching games list, ", e);
       return null;
+    });
+}
+
+export function createNewGame(userToken: string) {
+  return axios
+    .post("https://tictactoe.aboutdream.io/games/", undefined, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+    .then(async () => {
+      await fetchGames(userToken);
+    })
+    .catch((e) => {
+      console.log("Error fetching games list, ", e);
     });
 }
