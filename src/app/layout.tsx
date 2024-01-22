@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
 // components
 import Header from "~/components/organisms/header/Header";
@@ -12,10 +13,13 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Tic Tac Toe",
   // description: "Tic Tac Toe game",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  other: {
+    "Content-Security-Policy": "upgrade-insecure-requests",
+  },
 };
 
 export default function RootLayout({
