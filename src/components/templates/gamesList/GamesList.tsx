@@ -54,7 +54,14 @@ function GamesList() {
   });
 
   function canUserJoinGame(game: Game) {
-    if (game.status !== "finished") return false;
+    if (game.status === "finished") return true;
+    else if (
+      game.status === "progress" &&
+      (game.first_player.id === +user!.id ||
+        game.second_player!.id === +user!.id)
+    )
+      return false;
+    else if (game.status === "open") return false;
     return true;
   }
 

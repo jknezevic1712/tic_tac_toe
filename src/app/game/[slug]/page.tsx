@@ -38,10 +38,12 @@ function GameBoard({ params: { slug } }: GameBoardProps) {
         Game #{slug}
       </h1>
 
-      {currentGame.winner && (
+      {(currentGame.winner || currentGame.status === "finished") && (
         <div className="mb-12 flex flex-col items-center justify-center gap-3">
           <h2 className="text-3xl font-extrabold sm:text-4xl">
-            {`${currentGame.winner?.username} won!`}
+            {currentGame.winner
+              ? currentGame.winner?.username + " won!"
+              : "Draw!"}
           </h2>
           <Link href={"/"}>
             <Button variant="tertiary">Go Back</Button>
