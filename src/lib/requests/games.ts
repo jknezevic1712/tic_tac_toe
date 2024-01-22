@@ -1,8 +1,8 @@
 import axios from "axios";
 // types
-import type { RootState } from "../types/state";
+import type { Game, RootState } from "../types/state";
 // utils
-import { setGamesList } from "../store/store";
+import { setCurrentGame, setGamesList } from "../store/store";
 
 export function fetchGames(userToken: string, url?: string) {
   return axios
@@ -12,7 +12,6 @@ export function fetchGames(userToken: string, url?: string) {
       },
     })
     .then((res: { data: RootState["gamesList"] }) => {
-      // console.log("AXIOS fetchGames, ", res.data);
       setGamesList(res.data);
       return res.data;
     })
@@ -31,6 +30,55 @@ export function createNewGame(userToken: string) {
     })
     .then(async () => {
       await fetchGames(userToken);
+    })
+    .catch((e) => {
+      console.log("Error fetching games list, ", e);
+    });
+}
+
+export function joinGame(userToken: string, gameId: number) {
+  console.log("AXIOS joinGame, ", userToken, ", ", gameId);
+  return axios
+    .post(`https://tictactoe.aboutdream.io/games/${gameId}/join/`, undefined, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+    .catch((e) => {
+      console.log("Error fetching games list, ", e);
+    });
+}
+
+export function fetchGame(userToken: string, gameId: number) {
+  return axios
+    .get(`https://tictactoe.aboutdream.io/games/${gameId}/`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+    .then((res: { data: Game }) => {
+      setCurrentGame(res.data);
+      return res.data;
+    })
+    .catch((e) => {
+      console.log("Error fetching games list, ", e);
+      return null;
+    });
+}
+
+export function makeMove(
+  userToken: string,
+  gameId: number,
+  move: { row: number; col: number },
+) {
+  return axios
+    .post(`https://tictactoe.aboutdream.io/games/${gameId}/move/`, move, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+    .then(async () => {
+      await fetchGame(userToken, gameId);
     })
     .catch((e) => {
       console.log("Error fetching games list, ", e);

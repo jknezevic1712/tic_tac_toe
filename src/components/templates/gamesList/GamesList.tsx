@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "~/components/atoms/button/Button";
 import DataTable from "~/components/organisms/dataTable/Datatable";
 // utils
-import { createNewGame, fetchGames } from "~/lib/requests/games";
+import { createNewGame, fetchGames, joinGame } from "~/lib/requests/games";
 import { useStore } from "~/lib/store/store";
 // types
 import type { Game } from "~/lib/types/state";
@@ -32,18 +32,17 @@ function GamesList() {
     {
       accessorKey: "actions",
       header: "",
-      cell: ({ row }) => {
-        return (
-          <div className="text-right">
-            <Button
-              variant="tertiary"
-              onClick={() => handleGameJoin(row.original)}
-            >
-              Join
-            </Button>
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <div className="text-right">
+          <Button
+            variant="tertiary"
+            onClick={() => handleGameJoin(row.original)}
+            disabled={canUserJoinGame(row.original)}
+          >
+            {isUserAlreadyInThatGame(row.original) ? "Continue" : "Join"}
+          </Button>
+        </div>
+      ),
     },
   ];
 
@@ -51,11 +50,27 @@ function GamesList() {
     queryKey: ["fetch-games"],
     queryFn: async () => await fetchGames(user!.token),
     staleTime: 5000,
-    refetchOnMount: "always",
+    refetchInterval: 5000,
   });
 
-  function handleGameJoin(game: Game) {
-    // console.log("Joined game ", game);
+  function canUserJoinGame(game: Game) {
+    if (game.status !== "finished") return false;
+    return true;
+  }
+
+  function isUserAlreadyInThatGame(game: Game) {
+    if (
+      game.first_player.username === user!.username ||
+      game.second_player?.username === user!.username
+    )
+      return true;
+    return false;
+  }
+
+  async function handleGameJoin(game: Game) {
+    if (isUserAlreadyInThatGame(game)) return router.push(`/game/${game.id}`);
+
+    await joinGame(user!.token, game.id);
     router.push(`/game/${game.id}`);
   }
 

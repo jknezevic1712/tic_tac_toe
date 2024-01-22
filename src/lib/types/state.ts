@@ -30,4 +30,5 @@ export type RootState = {
     previous: string | null;
     results: Game[];
   };
+  currentGame: Game | null;
 };
