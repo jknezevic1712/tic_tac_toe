@@ -67,6 +67,12 @@ function GamesList() {
     return false;
   }
 
+  async function handleCreateNewGame() {
+    await createNewGame(user!.token).then((newGame) => {
+      if (newGame) return handleGameJoin(newGame);
+    });
+  }
+
   async function handleGameJoin(game: Game) {
     if (isUserAlreadyInThatGame(game)) return router.push(`/game/${game.id}`);
 
@@ -78,10 +84,7 @@ function GamesList() {
 
   return (
     <div className="flex w-full flex-col rounded-md shadow-xl">
-      <Button
-        className="mb-4 w-fit self-end"
-        onClick={() => createNewGame(user.token)}
-      >
+      <Button className="mb-4 w-fit self-end" onClick={handleCreateNewGame}>
         Create New
       </Button>
       <DataTable columns={columns} data={gamesList} userToken={user.token} />

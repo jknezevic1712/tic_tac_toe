@@ -28,11 +28,13 @@ export function createNewGame(userToken: string) {
         Authorization: `Bearer ${userToken}`,
       },
     })
-    .then(async () => {
+    .then(async (res: { data: Game }) => {
       await fetchGames(userToken);
+      return res.data;
     })
     .catch((e) => {
       console.log("Error fetching games list, ", e);
+      return null;
     });
 }
 
