@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 // components
 import Header from "~/components/organisms/header/Header";
+import { Toaster } from "~/components/organisms/toast/Toast";
 // utils
 import TanstackQueryProvider from "~/components/organisms/tanstackQueryProvider/TanstackQueryProvider";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <Toaster />
         </body>
       </TanstackQueryProvider>
     </html>

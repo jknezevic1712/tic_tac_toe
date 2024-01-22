@@ -16,10 +16,11 @@ function AuthButton() {
   });
 
   function handleAuth() {
+    router.push("/authentication");
+
     if (user) {
       logoutUser.mutate();
     }
-    return router.push("/authentication");
   }
 
   return <Button onClick={handleAuth}>{user ? "Logout" : "Login"}</Button>;

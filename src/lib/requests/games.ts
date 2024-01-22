@@ -1,4 +1,6 @@
 import axios from "axios";
+// components
+import { toast } from "sonner";
 // types
 import type { Game, RootState } from "../types/state";
 // utils
@@ -13,10 +15,13 @@ export function fetchGames(userToken: string, url?: string) {
     })
     .then((res: { data: RootState["gamesList"] }) => {
       setGamesList(res.data);
+      toast.success("Updated games!");
       return res.data;
     })
     .catch((e) => {
-      console.log("Error fetching games list, ", e);
+      toast.error("Error while updating games!", {
+        description: e.response.data.errors[0].message,
+      });
       return null;
     });
 }
@@ -30,10 +35,13 @@ export function createNewGame(userToken: string) {
     })
     .then(async (res: { data: Game }) => {
       await fetchGames(userToken);
+      toast.success("Game created!");
       return res.data;
     })
     .catch((e) => {
-      console.log("Error fetching games list, ", e);
+      toast.error("Error creating a new game!", {
+        description: e.response.data.errors[0].message,
+      });
       return null;
     });
 }
@@ -46,8 +54,11 @@ export function joinGame(userToken: string, gameId: number) {
         Authorization: `Bearer ${userToken}`,
       },
     })
+    .then(() => toast.success("Joined game!"))
     .catch((e) => {
-      console.log("Error fetching games list, ", e);
+      toast.error("Error joining the game!", {
+        description: e.response.data.errors[0].message,
+      });
     });
 }
 
@@ -63,7 +74,9 @@ export function fetchGame(userToken: string, gameId: number) {
       return res.data;
     })
     .catch((e) => {
-      console.log("Error fetching games list, ", e);
+      toast.error("Error fetching game data!", {
+        description: e.response.data.errors[0].message,
+      });
       return null;
     });
 }
@@ -81,8 +94,11 @@ export function makeMove(
     })
     .then(async () => {
       await fetchGame(userToken, gameId);
+      toast.success("Move made!");
     })
     .catch((e) => {
-      console.log("Error fetching games list, ", e);
+      toast.error("Error making the move!", {
+        description: e.response.data.errors[0].message,
+      });
     });
 }

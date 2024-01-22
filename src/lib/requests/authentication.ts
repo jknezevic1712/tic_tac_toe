@@ -1,4 +1,6 @@
 import axios from "axios";
+// components
+import { toast } from "sonner";
 // types
 import type { User } from "../types/state";
 // utils
@@ -10,8 +12,12 @@ export function userRegisteration(username: string, password: string) {
       username,
       password,
     })
-    .then(async () => await userLogin(username, password))
-    .catch((e) => console.log(e));
+    .then(async () => userLogin(username, password))
+    .catch((e) =>
+      toast.error("Error creating a new game!", {
+        description: e.response.data.errors[0].message,
+      }),
+    );
 }
 
 export function userLogin(username: string, password: string) {
@@ -22,9 +28,15 @@ export function userLogin(username: string, password: string) {
     })
     .then((res: { data: User }) => {
       setUser(res.data);
+      toast.success("Successfully logged in!");
       return true;
     })
-    .catch(() => false);
+    .catch((e) => {
+      toast.error("Error creating a new game!", {
+        description: e.response.data.errors[0].message,
+      });
+      return false;
+    });
 }
 
 export function userLogout(userToken: string) {
@@ -34,6 +46,13 @@ export function userLogout(userToken: string) {
         Authorization: `Bearer ${userToken}`,
       },
     })
-    .then(() => resetState())
-    .catch((e) => console.log(e));
+    .then(() => {
+      resetState();
+      toast.success("Logged out successfully!");
+    })
+    .catch((e) =>
+      toast.error("Error creating a new game!", {
+        description: e.response.data.errors[0].message,
+      }),
+    );
 }
