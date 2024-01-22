@@ -8,8 +8,14 @@ import { APIErrorResponse } from "../types/utility";
 import { setCurrentGame, setGamesList } from "../store/store";
 
 export function fetchGames(userToken: string, url?: string) {
+  let correctUrl;
+
+  if (url) {
+    correctUrl = url.slice(0, 4) + "s" + url.slice(4);
+  }
+
   return axios
-    .get(url ?? "https://tictactoe.aboutdream.io/games/", {
+    .get(correctUrl ?? "https://tictactoe.aboutdream.io/games/", {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },

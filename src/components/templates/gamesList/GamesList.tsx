@@ -49,7 +49,6 @@ function GamesList() {
   useQuery({
     queryKey: ["fetch-games"],
     queryFn: async () => await fetchGames(user!.token),
-    refetchInterval: 10000,
   });
 
   function canUserJoinGame(game: Game) {
