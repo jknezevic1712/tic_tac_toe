@@ -23,7 +23,16 @@ function AuthButton() {
     }
   }
 
-  return <Button onClick={handleAuth}>{user ? "Logout" : "Login"}</Button>;
+  return (
+    <div className="flex items-center justify-center gap-3 lg:gap-6">
+      {user && (
+        <span>
+          Hello, <strong>{user.username}</strong>
+        </span>
+      )}
+      <Button onClick={handleAuth}>{user ? "Logout" : "Login"}</Button>
+    </div>
+  );
 }
 
 export default AuthButton;
