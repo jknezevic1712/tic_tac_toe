@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 // types
 import type { Game, RootState } from "../types/state";
+import { APIErrorResponse } from "../types/utility";
 // utils
 import { setCurrentGame, setGamesList } from "../store/store";
 
@@ -18,7 +19,7 @@ export function fetchGames(userToken: string, url?: string) {
       toast.success("Updated games!");
       return res.data;
     })
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error while updating games!", {
         description: e.response.data.errors[0].message,
       });
@@ -38,7 +39,7 @@ export function createNewGame(userToken: string) {
       toast.success("Game created!");
       return res.data;
     })
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error creating a new game!", {
         description: e.response.data.errors[0].message,
       });
@@ -54,7 +55,7 @@ export function joinGame(userToken: string, gameId: number) {
       },
     })
     .then(() => toast.success("Joined game!"))
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error joining the game!", {
         description: e.response.data.errors[0].message,
       });
@@ -72,7 +73,7 @@ export function fetchGame(userToken: string, gameId: number) {
       setCurrentGame(res.data);
       return res.data;
     })
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error fetching game data!", {
         description: e.response.data.errors[0].message,
       });
@@ -95,7 +96,7 @@ export function makeMove(
       await fetchGame(userToken, gameId);
       toast.success("Move made!");
     })
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error making the move!", {
         description: e.response.data.errors[0].message,
       });

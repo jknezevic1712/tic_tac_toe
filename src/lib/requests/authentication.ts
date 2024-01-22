@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 // types
 import type { User } from "../types/state";
+import { APIErrorResponse } from "../types/utility";
 // utils
 import { setUser, resetState } from "../store/store";
 
@@ -13,7 +14,7 @@ export function userRegisteration(username: string, password: string) {
       password,
     })
     .then(async () => userLogin(username, password))
-    .catch((e) =>
+    .catch((e: APIErrorResponse) =>
       toast.error("Error creating a new game!", {
         description: e.response.data.errors[0].message,
       }),
@@ -31,7 +32,7 @@ export function userLogin(username: string, password: string) {
       toast.success("Successfully logged in!");
       return true;
     })
-    .catch((e) => {
+    .catch((e: APIErrorResponse) => {
       toast.error("Error creating a new game!", {
         description: e.response.data.errors[0].message,
       });
@@ -50,7 +51,7 @@ export function userLogout(userToken: string) {
       resetState();
       toast.success("Logged out successfully!");
     })
-    .catch((e) =>
+    .catch((e: APIErrorResponse) =>
       toast.error("Error creating a new game!", {
         description: e.response.data.errors[0].message,
       }),
