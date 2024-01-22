@@ -14,22 +14,41 @@ import {
   TableCell,
   Table,
 } from "~/components/molecules/table/Table";
+// utils
+import { fetchGames } from "~/lib/requests/games";
+// types
+import type { RootState } from "~/lib/types/state";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[] | null;
+  data: RootState["gamesList"] & {
+    results: TData[];
+  };
+  userToken: string;
 }
 
 function DataTable<TData, TValue>({
   columns,
   data,
+  userToken,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data: data ?? [],
+    data: data.results || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
+  async function fetchPage(url?: string) {
+    console.log("url ", url);
+    await fetchGames(userToken, url);
+  }
+
+  function statusColor(status: "open" | "progress" | "finished") {
+    if (status === "open") return "bg-green-400";
+    else if (status === "progress") return "bg-yellow-400";
+    return "bg-rose-400";
+  }
 
   return (
     <div className="w-full rounded-md border">
@@ -65,16 +84,17 @@ function DataTable<TData, TValue>({
                   return (
                     <TableCell
                       key={cell.id}
-                      className={
-                        cell.column.id === "first_player_username"
-                          ? "p-4 font-bold"
-                          : "p-4"
-                      }
+                      className={`bg-opacity-70 p-3
+                        ${cell.column.id === "first_player_username" && "font-bold"}`}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      <span
+                        className={`${cell.column.id === "status" ? statusColor(cell.row.getValue("status")) + " rounded-sm p-2" : ""}`}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </span>
                     </TableCell>
                   );
                 })}
@@ -93,16 +113,16 @@ function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => fetchPage(data.previous ?? undefined)}
+          disabled={!data.previous}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => fetchPage(data.next ?? undefined)}
+          disabled={!data.next}
         >
           Next
         </Button>

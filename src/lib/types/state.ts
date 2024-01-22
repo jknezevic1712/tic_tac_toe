@@ -24,5 +24,10 @@ export type User = {
 };
 export type RootState = {
   user: User | null;
-  gamesList: Game[] | [];
+  gamesList: {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Game[];
+  };
 };

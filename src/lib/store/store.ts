@@ -5,7 +5,12 @@ import { persist } from "zustand/middleware";
 
 const initialState: RootState = {
   user: null,
-  gamesList: [],
+  gamesList: {
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
+  },
 };
 
 const useStore = create(

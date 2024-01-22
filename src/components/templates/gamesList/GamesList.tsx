@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 import { Button } from "~/components/atoms/button/Button";
 import DataTable from "~/components/organisms/dataTable/Datatable";
 // utils
 import { fetchGames } from "~/lib/requests/games";
-import { setGamesList, useStore } from "~/lib/store/store";
+import { useStore } from "~/lib/store/store";
 // types
 import type { Game } from "~/lib/types/state";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useQuery } from "@tanstack/react-query";
 
 function GamesList() {
   const router = useRouter();
@@ -49,12 +49,9 @@ function GamesList() {
 
   useQuery({
     queryKey: ["fetch-games"],
-    queryFn: async () => {
-      const games = await fetchGames(user!.token);
-      games && setGamesList(games);
-      return games;
-    },
-    staleTime: 15000,
+    queryFn: async () => await fetchGames(user!.token),
+    staleTime: 5000,
+    refetchOnMount: "always",
   });
 
   function handleGameJoin(game: Game) {
@@ -65,8 +62,9 @@ function GamesList() {
   if (!user) return <span>Please register/login to play!</span>;
 
   return (
-    <div className="w-full rounded-md shadow-xl">
-      <DataTable columns={columns} data={gamesList} />
+    <div className="flex w-full flex-col rounded-md shadow-xl">
+      {/* <Button className="mb-4 w-fit self-end">Create New</Button> */}
+      <DataTable columns={columns} data={gamesList} userToken={user.token} />
     </div>
   );
 }

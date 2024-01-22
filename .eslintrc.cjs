@@ -32,6 +32,7 @@ const config = {
       },
     ],
     "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/non-nullable-type-assertion-style": "warn",
   },
 };
 
