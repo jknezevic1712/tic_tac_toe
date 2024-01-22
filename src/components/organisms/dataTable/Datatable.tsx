@@ -40,7 +40,6 @@ function DataTable<TData, TValue>({
   });
 
   async function fetchPage(url?: string) {
-    console.log("url ", url);
     await fetchGames(userToken, url);
   }
 
@@ -79,25 +78,22 @@ function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => {
-                  // console.log("CELL ", cell);
-                  return (
-                    <TableCell
-                      key={cell.id}
-                      className={`bg-opacity-70 p-3
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={`bg-opacity-70 p-3
                         ${cell.column.id === "first_player_username" && "font-bold"}`}
+                  >
+                    <span
+                      className={`${cell.column.id === "status" ? statusColor(cell.row.getValue("status")) + " rounded-sm p-2" : ""}`}
                     >
-                      <span
-                        className={`${cell.column.id === "status" ? statusColor(cell.row.getValue("status")) + " rounded-sm p-2" : ""}`}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </span>
-                    </TableCell>
-                  );
-                })}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </span>
+                  </TableCell>
+                ))}
               </TableRow>
             ))
           ) : (

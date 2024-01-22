@@ -47,7 +47,6 @@ export function createNewGame(userToken: string) {
 }
 
 export function joinGame(userToken: string, gameId: number) {
-  console.log("AXIOS joinGame, ", userToken, ", ", gameId);
   return axios
     .post(`https://tictactoe.aboutdream.io/games/${gameId}/join/`, undefined, {
       headers: {
