@@ -18,7 +18,6 @@ function AuthButton() {
   function handleAuth() {
     if (user) {
       logoutUser.mutate();
-      return router.push("/");
     }
     return router.push("/authentication");
   }

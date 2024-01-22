@@ -44,7 +44,9 @@ function GameBoard({ params: { slug } }: GameBoardProps) {
               type="button"
               variant="board"
               className={`field-${fieldIdx} flex h-24 w-1/3 cursor-pointer items-center justify-center transition-all hover:bg-slate-300`}
-              disabled={field ? true : false}
+              disabled={
+                field ? true : false || currentGame.status === "finished"
+              }
               onClick={() =>
                 makeMove(user!.token, +slug, { row: rowIdx, col: fieldIdx })
               }
